@@ -7,6 +7,7 @@ import { BookingPage } from './components/BookingPage';
 import { AboutPage } from './components/AboutPage';
 import { ContactPage } from './components/ContactPage';
 import { WorkerSignupPage } from './components/WorkerSignupPage';
+import { Toaster } from './components/ui/sonner';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -45,6 +46,8 @@ export default function App() {
       <main className="flex-grow">
         {renderPage()}
       </main>
+      {/* Global toast container */}
+      <Toaster />
       <Footer onNavigate={handleNavigate} />
     </div>
   );

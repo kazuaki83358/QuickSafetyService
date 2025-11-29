@@ -1,5 +1,6 @@
 import { motion } from 'motion/react';
 import { useState } from 'react';
+import { toast } from 'sonner';
 import { Calendar, Clock, MapPin, User, Phone, Mail, FileText, Sparkles } from 'lucide-react';
 
 export function BookingPage() {
@@ -37,24 +38,68 @@ export function BookingPage() {
     'Monthly'
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({
-        name: '',
-        phone: '',
-        email: '',
-        address: '',
-        serviceType: '',
-        date: '',
-        time: '',
-        duration: '',
-        notes: ''
+
+    const payload = {
+      full_name: formData.name,
+      phone: formData.phone,
+      email: formData.email,
+      service_type: formData.serviceType,
+      date: formData.date,
+      time: formData.time,
+      duration: formData.duration,
+      address: formData.address,
+      notes: formData.notes
+    };
+
+    try {
+      // Use relative path so a dev proxy (Vite) can forward to backend and avoid CORS issues.
+      const res = await fetch("/api/bookings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
       });
-    }, 3000);
+
+      // Parse JSON response from server
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        const serverMessage = (data && (data.message || data.error)) || `Request failed (${res.status})`;
+        throw new Error(serverMessage);
+      }
+
+      // Success: show server message if available (non-blocking toast)
+      if (data && data.message) {
+        console.log('Server response:', data);
+        toast.success(data.message);
+      }
+
+      setSubmitted(true);
+
+      // Reset form after submission
+      setTimeout(() => {
+        setSubmitted(false);
+        setFormData({
+          name: "",
+          phone: "",
+          email: "",
+          address: "",
+          serviceType: "",
+          date: "",
+          time: "",
+          duration: "",
+          notes: ""
+        });
+      }, 3000);
+
+    } catch (err: any) {
+      const message = err?.message || 'Error submitting booking. Please try again.';
+      toast.error(message);
+      console.error(err);
+    }
   };
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -112,11 +157,10 @@ export function BookingPage() {
               {/* Name Field */}
               <div className="relative">
                 <label
-                  className={`absolute left-4 transition-all duration-300 pointer-events-none ${
-                    focusedField === 'name' || formData.name
+                  className={`absolute left-4 transition-all duration-300 pointer-events-none ${focusedField === 'name' || formData.name
                       ? 'top-2 text-xs'
                       : 'top-5 text-base'
-                  }`}
+                    }`}
                   style={{ color: focusedField === 'name' ? '#1d3557' : '#457b9d' }}
                 >
                   <User className="inline w-4 h-4 mr-2" />
@@ -141,11 +185,10 @@ export function BookingPage() {
               {/* Phone Field */}
               <div className="relative">
                 <label
-                  className={`absolute left-4 transition-all duration-300 pointer-events-none ${
-                    focusedField === 'phone' || formData.phone
+                  className={`absolute left-4 transition-all duration-300 pointer-events-none ${focusedField === 'phone' || formData.phone
                       ? 'top-2 text-xs'
                       : 'top-5 text-base'
-                  }`}
+                    }`}
                   style={{ color: focusedField === 'phone' ? '#1d3557' : '#457b9d' }}
                 >
                   <Phone className="inline w-4 h-4 mr-2" />
@@ -170,11 +213,10 @@ export function BookingPage() {
               {/* Email Field */}
               <div className="relative">
                 <label
-                  className={`absolute left-4 transition-all duration-300 pointer-events-none ${
-                    focusedField === 'email' || formData.email
+                  className={`absolute left-4 transition-all duration-300 pointer-events-none ${focusedField === 'email' || formData.email
                       ? 'top-2 text-xs'
                       : 'top-5 text-base'
-                  }`}
+                    }`}
                   style={{ color: focusedField === 'email' ? '#1d3557' : '#457b9d' }}
                 >
                   <Mail className="inline w-4 h-4 mr-2" />
@@ -314,11 +356,10 @@ export function BookingPage() {
             {/* Address Field */}
             <div className="relative mb-6">
               <label
-                className={`absolute left-4 transition-all duration-300 pointer-events-none ${
-                  focusedField === 'address' || formData.address
+                className={`absolute left-4 transition-all duration-300 pointer-events-none ${focusedField === 'address' || formData.address
                     ? 'top-2 text-xs'
                     : 'top-5 text-base'
-                }`}
+                  }`}
                 style={{ color: focusedField === 'address' ? '#1d3557' : '#457b9d' }}
               >
                 <MapPin className="inline w-4 h-4 mr-2" />
@@ -343,11 +384,10 @@ export function BookingPage() {
             {/* Notes Field */}
             <div className="relative mb-8">
               <label
-                className={`absolute left-4 transition-all duration-300 pointer-events-none ${
-                  focusedField === 'notes' || formData.notes
+                className={`absolute left-4 transition-all duration-300 pointer-events-none ${focusedField === 'notes' || formData.notes
                     ? 'top-2 text-xs'
                     : 'top-5 text-base'
-                }`}
+                  }`}
                 style={{ color: focusedField === 'notes' ? '#1d3557' : '#457b9d' }}
               >
                 <FileText className="inline w-4 h-4 mr-2" />
