@@ -1,4 +1,4 @@
-import { Shield, Users, Home, Wind, Zap, UserCheck } from 'lucide-react';
+import { Shield, Users, Home, Car, Zap, UserCheck } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useState } from 'react';
 
@@ -24,27 +24,27 @@ export function Services({ onNavigate, isFullPage = false }: ServicesProps) {
       color: '#1d3557'
     },
     {
+      icon: UserCheck,
+      title: 'PSO (Personal Security Officer)',
+      description: 'Elite personal security officers for VIP protection and personal safety.',
+      color: '#1d3557'
+    },
+    {
       icon: Home,
       title: 'Servant / Aaya',
       description: 'Reliable domestic help for cleaning, cooking, and household management.',
       color: '#1d3557'
     },
     {
-      icon: Wind,
-      title: 'AC Repair & Installation',
-      description: 'Expert AC technicians for repair, maintenance, and installation services.',
+      icon: Car,
+      title: 'Driver',
+      description: 'Professional and experienced drivers for personal, family, or business transportation needs.',
       color: '#1d3557'
     },
     {
       icon: Zap,
       title: 'Electrician',
       description: 'Licensed electricians for all electrical work, repairs, and installations.',
-      color: '#1d3557'
-    },
-    {
-      icon: UserCheck,
-      title: 'PSO (Personal Security Officer)',
-      description: 'Elite personal security officers for VIP protection and personal safety.',
       color: '#1d3557'
     }
   ];

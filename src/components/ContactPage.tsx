@@ -40,19 +40,19 @@ export function ContactPage() {
     {
       icon: Phone,
       title: 'Phone',
-      details: ['+1 (555) 123-4567', '+1 (555) 987-6543'],
+      details: ['+91 9555731070', '+91 7701828545'],
       color: '#1d3557'
     },
     {
       icon: Mail,
       title: 'Email',
-      details: ['info@quicksafety.com', 'support@quicksafety.com'],
+      details: ['niraj7379@gmail.com', 'nirajkumar65542@gmail.com'],
       color: '#1d3557'
     },
     {
       icon: MapPin,
       title: 'Address',
-      details: ['123 Safety Street', 'Service City, SC 12345'],
+      details: ['F-137, Deepawali enclave', 'Ismailpur, Faridabad, Haryana'],
       color: '#1d3557'
     },
     {
@@ -309,8 +309,8 @@ export function ContactPage() {
                   Visit Our Office
                 </h3>
                 <p style={{ color: '#457b9d' }}>
-                  123 Safety Street<br />
-                  Service City, SC 12345
+                  F-137, Deepawali enclave<br />
+                  Ismailpur, Faridabad, Haryana
                 </p>
               </div>
             </div>

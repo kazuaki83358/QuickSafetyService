@@ -91,8 +91,8 @@ export function Testimonials() {
         </motion.div>
 
         <div className="relative max-w-4xl mx-auto">
-          <div className="overflow-hidden">
-            <AnimatePresence initial={false} custom={direction}>
+          <div className="relative overflow-hidden" style={{ minHeight: '300px' }}>
+            <AnimatePresence initial={false} custom={direction} mode="wait">
               <motion.div
                 key={currentIndex}
                 custom={direction}
@@ -104,14 +104,14 @@ export function Testimonials() {
                   x: { type: "spring", stiffness: 300, damping: 30 },
                   opacity: { duration: 0.2 }
                 }}
-                className="bg-white rounded-2xl p-8 md:p-12 shadow-xl"
+                className="bg-white rounded-2xl p-8 md:p-12 shadow-xl w-full"
                 style={{ border: '1px solid #e5e5e5' }}
               >
                 <div className="flex flex-col md:flex-row items-center gap-8">
                   <ImageWithFallback
                     src={testimonials[currentIndex].image}
                     alt={testimonials[currentIndex].name}
-                    className="w-24 h-24 rounded-full object-cover"
+                    className="w-24 h-24 rounded-full object-cover flex-shrink-0"
                   />
                   
                   <div className="flex-1 text-center md:text-left">

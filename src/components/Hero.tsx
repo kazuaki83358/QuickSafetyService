@@ -74,7 +74,7 @@ export function Hero({ onNavigate }: HeroProps) {
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             className="text-xl text-white/90 mb-10 max-w-2xl"
           >
-            Professional Guards, Bouncers, Servants, AC Technicians, Electricians and PSOs—available on demand.
+            Professional Guards, Bouncers, Servants, Drivers, Electricians and PSOs—available on demand.
           </motion.p>
 
           <motion.div

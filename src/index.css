@@ -57,6 +57,8 @@
     --container-7xl: 80rem;
     --text-xs: .75rem;
     --text-xs--line-height: calc(1 / .75);
+    --text-sm: .875rem;
+    --text-sm--line-height: calc(1.25 / .875);
     --text-base: 1rem;
     --text-base--line-height: calc(1.5 / 1);
     --text-lg: 1.125rem;
@@ -883,6 +885,11 @@
     border-top-width: 1px;
   }
 
+  .border-dashed {
+    --tw-border-style: dashed;
+    border-style: dashed;
+  }
+
   .border-white {
     border-color: var(--color-white);
   }
@@ -941,6 +948,10 @@
 
   .p-12 {
     padding: calc(var(--spacing) * 12);
+  }
+
+  .px-2 {
+    padding-inline: calc(var(--spacing) * 2);
   }
 
   .px-4 {
@@ -1029,6 +1040,11 @@
     line-height: var(--tw-leading, var(--text-lg--line-height));
   }
 
+  .text-sm {
+    font-size: var(--text-sm);
+    line-height: var(--tw-leading, var(--text-sm--line-height));
+  }
+
   .text-xl {
     font-size: var(--text-xl);
     line-height: var(--tw-leading, var(--text-xl--line-height));
@@ -1042,6 +1058,10 @@
   .font-bold {
     --tw-font-weight: var(--font-weight-bold);
     font-weight: var(--font-weight-bold);
+  }
+
+  .break-words {
+    overflow-wrap: break-word;
   }
 
   .text-white {
@@ -1127,6 +1147,18 @@
       --tw-scale-y: 105%;
       --tw-scale-z: 105%;
       scale: var(--tw-scale-x) var(--tw-scale-y);
+    }
+  }
+
+  @media (hover: hover) {
+    .hover\:border-\[\#a8dadc\]:hover {
+      border-color: #a8dadc;
+    }
+  }
+
+  @media (hover: hover) {
+    .hover\:bg-\[\#a8dadc\]\/5:hover {
+      background-color: oklab(85.4219% -.0487966 -.0170774 / .05);
     }
   }
 

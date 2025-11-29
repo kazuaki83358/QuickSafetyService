@@ -1,6 +1,6 @@
 import { motion } from 'motion/react';
 import { useState } from 'react';
-import { User, Phone, Mail, MapPin, Briefcase, Award, FileText, Upload, CheckCircle } from 'lucide-react';
+import { User, Phone, Mail, MapPin, Briefcase, Award, FileText, Upload, CheckCircle, CreditCard, Image as ImageIcon } from 'lucide-react';
 
 export function WorkerSignupPage() {
   const [formData, setFormData] = useState({
@@ -18,14 +18,19 @@ export function WorkerSignupPage() {
 
   const [focusedField, setFocusedField] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [uploadedFiles, setUploadedFiles] = useState({
+    aadharCard: null as File | null,
+    panCard: null as File | null,
+    photo: null as File | null
+  });
 
   const services = [
     'Security Guard',
     'Bouncer',
+    'PSO (Personal Security Officer)',
     'Servant / Aaya',
-    'AC Technician',
-    'Electrician',
-    'PSO (Personal Security Officer)'
+    'Driver',
+    'Electrician'
   ];
 
   const experienceLevels = [
@@ -61,7 +66,22 @@ export function WorkerSignupPage() {
         availability: '',
         additionalInfo: ''
       });
+      setUploadedFiles({
+        aadharCard: null,
+        panCard: null,
+        photo: null
+      });
     }, 4000);
+  };
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>, fileType: 'aadharCard' | 'panCard' | 'photo') => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setUploadedFiles({
+        ...uploadedFiles,
+        [fileType]: file
+      });
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -135,9 +155,13 @@ export function WorkerSignupPage() {
                 <p style={{ color: '#1d3557' }} className="mb-4">
                   Contact our recruitment team
                 </p>
+                <p style={{ color: '#1d3557' }} className="mb-2">
+                  <Phone className="inline w-4 h-4 mr-2" />
+                  +91 9555731070
+                </p>
                 <p style={{ color: '#1d3557' }}>
                   <Phone className="inline w-4 h-4 mr-2" />
-                  +1 (555) 123-4567
+                  +91 7701828545
                 </p>
               </div>
             </div>
@@ -450,6 +474,144 @@ export function WorkerSignupPage() {
                       boxShadow: focusedField === 'certifications' ? '0 0 0 3px rgba(168, 218, 220, 0.1)' : 'none'
                     }}
                   />
+                </div>
+
+                {/* Document Uploads Section */}
+                <div className="mb-6">
+                  <h4 style={{ color: '#1d3557' }} className="mb-4">
+                    Upload Documents
+                  </h4>
+                  
+                  <div className="grid md:grid-cols-3 gap-6">
+                    {/* Aadhar Card Upload */}
+                    <div className="relative">
+                      <label
+                        className="block mb-2 text-sm"
+                        style={{ color: '#457b9d' }}
+                      >
+                        <CreditCard className="inline w-4 h-4 mr-2" />
+                        Aadhar Card *
+                      </label>
+                      <input
+                        type="file"
+                        accept="image/*,.pdf"
+                        onChange={(e) => handleFileUpload(e, 'aadharCard')}
+                        required
+                        className="hidden"
+                        id="aadhar-upload"
+                      />
+                      <label
+                        htmlFor="aadhar-upload"
+                        className="flex flex-col items-center justify-center w-full h-32 rounded-xl border-2 border-dashed cursor-pointer transition-all duration-300 hover:border-[#a8dadc] hover:bg-[#a8dadc]/5"
+                        style={{
+                          borderColor: uploadedFiles.aadharCard ? '#a8dadc' : '#e5e5e5',
+                          backgroundColor: uploadedFiles.aadharCard ? 'rgba(168, 218, 220, 0.05)' : 'transparent'
+                        }}
+                      >
+                        {uploadedFiles.aadharCard ? (
+                          <div className="text-center px-2">
+                            <CheckCircle className="w-8 h-8 mx-auto mb-2" style={{ color: '#1d3557' }} />
+                            <p className="text-xs break-words" style={{ color: '#1d3557' }}>
+                              {uploadedFiles.aadharCard.name}
+                            </p>
+                          </div>
+                        ) : (
+                          <div className="text-center">
+                            <Upload className="w-8 h-8 mx-auto mb-2" style={{ color: '#457b9d' }} />
+                            <p className="text-xs" style={{ color: '#457b9d' }}>
+                              Click to upload
+                            </p>
+                          </div>
+                        )}
+                      </label>
+                    </div>
+
+                    {/* PAN Card Upload */}
+                    <div className="relative">
+                      <label
+                        className="block mb-2 text-sm"
+                        style={{ color: '#457b9d' }}
+                      >
+                        <CreditCard className="inline w-4 h-4 mr-2" />
+                        PAN Card *
+                      </label>
+                      <input
+                        type="file"
+                        accept="image/*,.pdf"
+                        onChange={(e) => handleFileUpload(e, 'panCard')}
+                        required
+                        className="hidden"
+                        id="pan-upload"
+                      />
+                      <label
+                        htmlFor="pan-upload"
+                        className="flex flex-col items-center justify-center w-full h-32 rounded-xl border-2 border-dashed cursor-pointer transition-all duration-300 hover:border-[#a8dadc] hover:bg-[#a8dadc]/5"
+                        style={{
+                          borderColor: uploadedFiles.panCard ? '#a8dadc' : '#e5e5e5',
+                          backgroundColor: uploadedFiles.panCard ? 'rgba(168, 218, 220, 0.05)' : 'transparent'
+                        }}
+                      >
+                        {uploadedFiles.panCard ? (
+                          <div className="text-center px-2">
+                            <CheckCircle className="w-8 h-8 mx-auto mb-2" style={{ color: '#1d3557' }} />
+                            <p className="text-xs break-words" style={{ color: '#1d3557' }}>
+                              {uploadedFiles.panCard.name}
+                            </p>
+                          </div>
+                        ) : (
+                          <div className="text-center">
+                            <Upload className="w-8 h-8 mx-auto mb-2" style={{ color: '#457b9d' }} />
+                            <p className="text-xs" style={{ color: '#457b9d' }}>
+                              Click to upload
+                            </p>
+                          </div>
+                        )}
+                      </label>
+                    </div>
+
+                    {/* Photo Upload */}
+                    <div className="relative">
+                      <label
+                        className="block mb-2 text-sm"
+                        style={{ color: '#457b9d' }}
+                      >
+                        <ImageIcon className="inline w-4 h-4 mr-2" />
+                        Your Photo *
+                      </label>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handleFileUpload(e, 'photo')}
+                        required
+                        className="hidden"
+                        id="photo-upload"
+                      />
+                      <label
+                        htmlFor="photo-upload"
+                        className="flex flex-col items-center justify-center w-full h-32 rounded-xl border-2 border-dashed cursor-pointer transition-all duration-300 hover:border-[#a8dadc] hover:bg-[#a8dadc]/5"
+                        style={{
+                          borderColor: uploadedFiles.photo ? '#a8dadc' : '#e5e5e5',
+                          backgroundColor: uploadedFiles.photo ? 'rgba(168, 218, 220, 0.05)' : 'transparent'
+                        }}
+                      >
+                        {uploadedFiles.photo ? (
+                          <div className="text-center px-2">
+                            <CheckCircle className="w-8 h-8 mx-auto mb-2" style={{ color: '#1d3557' }} />
+                            <p className="text-xs break-words" style={{ color: '#1d3557' }}>
+                              {uploadedFiles.photo.name}
+                            </p>
+                          </div>
+                        ) : (
+                          <div className="text-center">
+                            <Upload className="w-8 h-8 mx-auto mb-2" style={{ color: '#457b9d' }} />
+                            <p className="text-xs" style={{ color: '#457b9d' }}>
+                              Click to upload
+                            </p>
+                          </div>
+                        )}
+                      </label>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Additional Info */}

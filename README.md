@@ -1,74 +1,11 @@
-# 🚨 Quick Safety Service  
-A fast, responsive, and modern service-booking website offering **Security Guards, Bouncers, Servants/Aaya, AC Repair, Electricians, and PSO services**.  
-This platform acts as an official **booking medium** for our service team — all services are fulfilled directly by Quick Safety Service.
 
----
+  # Service-Booking Website Design
 
-## 📸 Project Preview
+  This is a code bundle for Service-Booking Website Design. The original project is available at https://www.figma.com/design/JJS2HmMunwNDvDAOiA8iES/Service-Booking-Website-Design.
 
-### Main Screenshot
-![Quick Safety Service Screenshot](./image.png)
+  ## Running the code
 
-### Additional Preview
-![Quick Safety Service UI](./imag2.png)
+  Run `npm i` to install the dependencies.
 
----
-
-## 🚀 Features
-
-### 🔹 Customer-Focused
-- Clean, modern, high-conversion landing page  
-- Fully responsive across mobile, tablet & desktop  
-- Fast-loading Vite setup  
-- Easy-to-use service categories  
-- Smooth layout & styling  
-
-### 🔹 Business Services Offered
-- 🛡️ Security Guards  
-- 💪 Bouncers (Events/Clubs)  
-- 👩‍🍼 Servants / Aaya / Attendants  
-- ❄️ AC Repair & Installation  
-- 🔌 Electricians  
-- 🔰 PSO (Personal Security Officers)  
-
----
-
-## 🧩 Tech Stack
-
-- **Vite**
-- **HTML5**
-- **CSS3 / Tailwind (if used)**
-- **JavaScript**
-- **Node.js**
-- **Vercel** (for deployment)
-
----
-
-## 📂 Project Structure
-
-QuickSafetyService/
-│── src/
-│── image.png
-│── imag2.png
-│── index.html
-│── package.json
-│── package-lock.json
-│── vite.config.ts
-│── node_modules/
-│── README.md
-
-
----
-
-## 📦 Installation & Setup
-
-### 1️⃣ Clone the repository
-```sh
-git clone <your-repo-url>
-cd QuickSafetyService
-
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
+  Run `npm run dev` to start the development server.
+  

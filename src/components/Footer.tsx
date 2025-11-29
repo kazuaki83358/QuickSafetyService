@@ -89,10 +89,10 @@ export function Footer({ onNavigate }: FooterProps) {
             <ul className="space-y-3 text-white/80">
               <li>Security Guard</li>
               <li>Bouncer</li>
-              <li>Servant / Aaya</li>
-              <li>AC Repair</li>
-              <li>Electrician</li>
               <li>PSO</li>
+              <li>Servant / Aaya</li>
+              <li>Driver</li>
+              <li>Electrician</li>
             </ul>
           </div>
 
@@ -103,17 +103,20 @@ export function Footer({ onNavigate }: FooterProps) {
               <li className="flex items-start gap-3">
                 <Phone className="w-5 h-5 mt-1 flex-shrink-0" style={{ color: '#a8dadc' }} />
                 <div>
-                  <p className="text-white/80">+1 (555) 123-4567</p>
-                  <p className="text-white/80">+1 (555) 987-6543</p>
+                  <p className="text-white/80">+91 9555731070</p>
+                  <p className="text-white/80">+91 7701828545</p>
                 </div>
               </li>
               <li className="flex items-start gap-3">
                 <Mail className="w-5 h-5 mt-1 flex-shrink-0" style={{ color: '#a8dadc' }} />
-                <p className="text-white/80">info@quicksafety.com</p>
+                <div>
+                  <p className="text-white/80">niraj7379@gmail.com</p>
+                  <p className="text-white/80">nirajkumar65542@gmail.com</p>
+                </div>
               </li>
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 mt-1 flex-shrink-0" style={{ color: '#a8dadc' }} />
-                <p className="text-white/80">123 Safety Street, Service City, SC 12345</p>
+                <p className="text-white/80">F-137, Deepawali enclave, Ismailpur, Faridabad, Haryana</p>
               </li>
             </ul>
           </div>

@@ -21,10 +21,10 @@ export function BookingPage() {
   const services = [
     'Security Guard',
     'Bouncer',
+    'PSO (Personal Security Officer)',
     'Servant / Aaya',
-    'AC Repair & Installation',
-    'Electrician',
-    'PSO (Personal Security Officer)'
+    'Driver',
+    'Electrician'
   ];
 
   const durations = [
