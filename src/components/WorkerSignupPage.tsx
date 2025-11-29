@@ -1,5 +1,6 @@
 import { motion } from 'motion/react';
 import { useState } from 'react';
+import { toast } from 'sonner';
 import { User, Phone, Mail, MapPin, Briefcase, Award, FileText, Upload, CheckCircle, CreditCard, Image as ImageIcon } from 'lucide-react';
 
 export function WorkerSignupPage() {
@@ -49,29 +50,121 @@ export function WorkerSignupPage() {
     'On-call'
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({
-        fullName: '',
-        phone: '',
-        email: '',
-        address: '',
-        city: '',
-        serviceType: '',
-        experience: '',
-        certifications: '',
-        availability: '',
-        additionalInfo: ''
+
+    // Build FormData (multipart) to include file uploads
+    try {
+      const apiBase = ((import.meta as any).env?.VITE_API_BASE as string) || '';
+      const url = apiBase ? `${apiBase}/api/workers` : '/api/workers';
+
+      // Basic client-side validation for required fields
+      const requiredFields = [
+        { name: 'Full Name', value: formData.fullName },
+        { name: 'Phone', value: formData.phone },
+        { name: 'Email', value: formData.email },
+        { name: 'City', value: formData.city },
+        { name: 'Service Type', value: formData.serviceType },
+        { name: 'Experience', value: formData.experience },
+        { name: 'Availability', value: formData.availability },
+        { name: 'Address', value: formData.address }
+      ];
+
+      for (const f of requiredFields) {
+        if (!f.value || String(f.value).trim() === '') {
+          toast.error(`${f.name} is required`);
+          return;
+        }
+      }
+
+      if (!uploadedFiles.photo || !uploadedFiles.aadharCard || !uploadedFiles.panCard) {
+        toast.error('Please upload required documents (photo, Aadhar, PAN).');
+        return;
+      }
+
+      const body = new FormData();
+      body.append('full_name', formData.fullName);
+      body.append('phone', formData.phone);
+      body.append('email', formData.email);
+      body.append('address', formData.address);
+      body.append('city', formData.city);
+      body.append('service_type', formData.serviceType);
+      body.append('experience', formData.experience);
+      body.append('certifications', formData.certifications);
+      body.append('availability', formData.availability);
+      body.append('additional_info', formData.additionalInfo);
+
+      if (uploadedFiles.aadharCard) body.append('aadhar_card', uploadedFiles.aadharCard);
+      if (uploadedFiles.panCard) body.append('pan_card', uploadedFiles.panCard);
+      if (uploadedFiles.photo) body.append('photo', uploadedFiles.photo);
+
+      // Debug: log FormData entries so we can inspect what is being sent
+      for (const entry of Array.from((body as FormData).entries())) {
+        const [key, value] = entry as [string, File | string];
+        if (value instanceof File) {
+          console.log(`[FormData] ${key}: File { name: ${value.name}, type: ${value.type}, size: ${value.size} }`);
+        } else {
+          console.log(`[FormData] ${key}: ${value}`);
+        }
+      }
+
+      const res = await fetch(url, {
+        method: 'POST',
+        body,
       });
-      setUploadedFiles({
-        aadharCard: null,
-        panCard: null,
-        photo: null
-      });
-    }, 4000);
+
+      // Try parse as JSON, but capture text fallback for non-JSON error responses
+      let data: any = {};
+      let textFallback: string | null = null;
+      try {
+        data = await res.json();
+      } catch (e) {
+        try {
+          textFallback = await res.text();
+        } catch (e2) {
+          textFallback = null;
+        }
+      }
+
+      if (!res.ok) {
+        const serverMsg = (data && (data.message || data.error)) || textFallback || `Request failed (${res.status})`;
+        toast.error(serverMsg as string);
+        console.error('Worker signup error: status=', res.status, 'json=', data, 'text=', textFallback);
+        return;
+      }
+
+      // Success
+      const successMsg = (data && (data.message || 'Application submitted'));
+      toast.success(successMsg as string);
+      setSubmitted(true);
+
+      // Reset form after a short delay so user sees success UI
+      setTimeout(() => {
+        setSubmitted(false);
+        setFormData({
+          fullName: '',
+          phone: '',
+          email: '',
+          address: '',
+          city: '',
+          serviceType: '',
+          experience: '',
+          certifications: '',
+          availability: '',
+          additionalInfo: ''
+        });
+        setUploadedFiles({
+          aadharCard: null,
+          panCard: null,
+          photo: null
+        });
+      }, 3000);
+
+    } catch (err: any) {
+      const message = err?.message || 'Error submitting application. Please try again.';
+      toast.error(message);
+      console.error(err);
+    }
   };
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>, fileType: 'aadharCard' | 'panCard' | 'photo') => {
@@ -199,6 +292,7 @@ export function WorkerSignupPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
                 onSubmit={handleSubmit}
+                noValidate
                 className="bg-white rounded-2xl p-8 md:p-12 shadow-xl"
               >
                 <h3 style={{ color: '#1d3557' }} className="mb-8">
@@ -496,7 +590,6 @@ export function WorkerSignupPage() {
                         type="file"
                         accept="image/*,.pdf"
                         onChange={(e) => handleFileUpload(e, 'aadharCard')}
-                        required
                         className="hidden"
                         id="aadhar-upload"
                       />
@@ -539,7 +632,6 @@ export function WorkerSignupPage() {
                         type="file"
                         accept="image/*,.pdf"
                         onChange={(e) => handleFileUpload(e, 'panCard')}
-                        required
                         className="hidden"
                         id="pan-upload"
                       />
@@ -582,7 +674,6 @@ export function WorkerSignupPage() {
                         type="file"
                         accept="image/*"
                         onChange={(e) => handleFileUpload(e, 'photo')}
-                        required
                         className="hidden"
                         id="photo-upload"
                       />
